@@ -3,9 +3,11 @@ package com.carlsilber.strings;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.stream.Stream;
 
+import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 
 public class StringsStream {
@@ -47,6 +49,32 @@ public class StringsStream {
         Stream<String> values = Stream.of("config", "home", "user")
                 .flatMap(key -> Stream.ofNullable(System.getProperty(key)));    //Nullable since Java 9
         System.out.println(values.toArray().length);
+    }
+
+    @Test
+    public void removeDuplicateWords(){
+        String s = "alpha gamma beta gamma delta";
+        s = Arrays.stream( s.split("\\s+")).distinct().collect(joining(" ") );
+        System.out.println(s);  //alpha gamma beta delta
+    }
+
+    public static String removeDuplicateWords2(String s) {
+        return String.join(" ", new LinkedHashSet<>(Arrays.asList(s.split(" "))));
+    }
+
+    public static String removeDuplicateWords3(String s){
+        return Arrays.stream(s.split(" ")).distinct().collect(joining(" "));
+    }
+
+    @Test
+    public void abbreviateName() {
+        String name = "Tom Jones";
+        name = Arrays.stream(name.split(" "))
+                .map(String::toUpperCase)
+                .map(word -> word.substring(0, 1))
+                .collect(joining("."));
+
+        System.out.println(name);   //T.J
     }
 
 

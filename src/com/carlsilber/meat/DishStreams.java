@@ -2,7 +2,6 @@ package com.carlsilber.meat;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.OptionalInt;
@@ -12,22 +11,11 @@ import java.util.stream.Stream;
 import static java.util.stream.Collectors.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class DishStreams {
+public class DishStreams extends DishData {
 
     public static void main(String[] args) {
-        // System.out.println(threeHighCaloricDishNames);
+         //System.out.println(threeHighCaloricDishNames);
     }
-
-    private static List<Dish> menu = Arrays.asList(
-            new Dish("pork", false, 800, Dish.Type.MEAT),
-            new Dish("beef", false, 700, Dish.Type.MEAT),
-            new Dish("chicken", false, 400, Dish.Type.MEAT),
-            new Dish("french fries", true, 530, Dish.Type.OTHER),
-            new Dish("rice", true, 350, Dish.Type.OTHER),
-            new Dish("season fruit", true, 120, Dish.Type.OTHER),
-            new Dish("pizza", true, 550, Dish.Type.OTHER),
-            new Dish("prawns", false, 300, Dish.Type.FISH),
-            new Dish("salmon", false, 450, Dish.Type.FISH));
 
     @Test
     public void streamFiltering_thenLimiting() {
@@ -74,7 +62,7 @@ public class DishStreams {
     }
 
     @Test
-    public void streamAnyMatch() {
+    public static void streamAnyMatch() {
         if (menu.stream().anyMatch(Dish::isVegetarian)) {      //true
             System.out.println("The menu is (somewhat) vegetarian friendly!!");
         }
@@ -131,6 +119,7 @@ public class DishStreams {
         System.out.println(totalCalories);  //4200
     }
 
+
     @Test
     public void getTotalCalories2() {
         int calories = menu.stream()
@@ -176,4 +165,14 @@ public class DishStreams {
         System.out.println(shortMenu2); //pork, beef, chicken, french fries, rice, season fruit, pizza, prawns, salmon
     }
 
+    @Test
+    public void joiningStringsUsingReducing() {
+        String shortMenu = menu.stream()
+                .collect( reducing( "", Dish::getName, (s1, s2) -> s1 + s2 ) );  //porkbeefchickenfrench friesriceseason fruitpizzaprawnssalmon
+        //OR
+        String shortMenu2 = menu.stream().map(Dish::getName)
+                .collect( reducing( (s1, s2) -> s1 + s2 ) ).get();  //porkbeefchickenfrench friesriceseason fruitpizzaprawnssalmon
+
+        System.out.println(shortMenu);
+    }
 }
