@@ -2,9 +2,9 @@ package com.carlsilber.employee;
 
 public class Employee {
 
-    private int id;
+    private Integer id;
     private String name;
-    private double salary;
+    private Double salary;
 
     public Employee(int id, String name, double salary) {
         this.id = id;
@@ -12,16 +12,36 @@ public class Employee {
         this.salary = salary;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {
         return name;
     }
 
-    public double getSalary() {
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Double getSalary() {
         return salary;
     }
 
+    public void setSalary(Double salary) {
+        this.salary = salary;
+    }
+
+    public void salaryIncrement(Double percentage) {
+        Double newSalary = salary + percentage * salary / 100;
+        setSalary(newSalary);
+    }
+
+    public String toString() {
+        return "Id: " + id + " Name:" + name + " Price:" + salary;
+    }
 }
