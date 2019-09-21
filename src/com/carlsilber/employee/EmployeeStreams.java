@@ -15,6 +15,11 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+
+/**
+ * code snippets from https://github.com/Baeldung/stackify/tree/master/core-java
+ */
+
 public class EmployeeStreams {
 
     private static String fileName = "src/resources/test.txt";

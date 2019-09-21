@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -15,6 +17,9 @@ public class NumbersStream {
 
     List<Integer> numbers1 = Arrays.asList(1, 2, 1, 3, 3, 2, 4);
     List<Integer> numbers2 = Arrays.asList(2, 3, 5, 7);
+
+    int[] intArray1 = new int[] {1,2,3};
+    int[] intArray2 = new int[] {4,5,6,7,8};
 
     @Test
     public void distinctNumbers() {
@@ -122,5 +127,34 @@ public class NumbersStream {
                 .reduce(Integer::min);
 
         System.out.println(min);    //Optional[1]
+    }
+
+
+    public static int summingAllElementsOfTwoArrays(int[] arr1, int[] arr2){
+        return Stream.of(arr1, arr2).flatMapToInt(Arrays::stream).sum();
+
+    //  return concat(stream(arr1),stream(arr2)).sum();
+
+    /*  return Stream.of(arr1, arr2)
+                .flatMapToInt(Arrays::stream)
+                .sum();     */
+
+    /*  return concat(Arrays.stream(arr1), Arrays.stream(arr2))
+                .reduce(0, (a, b) -> a + b);  */
+    }
+
+    public static char findMissingLetter(char[] array) {
+        return IntStream.range(0, array.length - 1)
+                .filter(i -> array[i + 1] != array[i] + 1)
+                .mapToObj(i -> (char) (array[i] + 1))
+                .findAny().orElseThrow(IllegalArgumentException::new);
+    }
+
+
+
+    @Test
+    public void findMissingLetterTest() {
+        assertEquals('e', findMissingLetter(new char[] { 'a','b','c','d','f' }));
+        assertEquals('P', findMissingLetter(new char[] { 'O','Q','R','S' }));
     }
 }
